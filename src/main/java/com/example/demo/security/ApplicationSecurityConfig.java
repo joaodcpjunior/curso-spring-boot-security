@@ -39,13 +39,13 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
         UserDetails annaSmithUser = User.builder()
             .username("annasmith")
             .password(passwordEncoder.encode("password"))
-            .roles("STUDENT") // ROLE_STUDENT -> maneira que o spring entende a role
+            .roles(ApplicationUserRole.STUDENT.name()) // ROLE_STUDENT -> maneira que o spring entende a role
             .build();
 
         UserDetails lindaUser = User.builder()
             .username("linda")
             .password(passwordEncoder.encode("password123"))
-            .roles("ADMIN") 
+            .roles(ApplicationUserRole.ADMIN.name()) 
             .build();
 
         return new InMemoryUserDetailsManager(
