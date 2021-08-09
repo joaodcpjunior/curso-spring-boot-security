@@ -16,6 +16,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
     
+    private static final ApplicationUserRole STUDENT = ApplicationUserRole.STUDENT;
+
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -28,6 +30,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/api/**").hasAnyRole(STUDENT.name())
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
@@ -39,7 +42,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
         UserDetails annaSmithUser = User.builder()
             .username("annasmith")
             .password(passwordEncoder.encode("password"))
-            .roles(ApplicationUserRole.STUDENT.name()) // ROLE_STUDENT -> maneira que o spring entende a role
+            .roles(STUDENT.name()) // ROLE_STUDENT -> maneira que o spring entende a role
             .build();
 
         UserDetails lindaUser = User.builder()
